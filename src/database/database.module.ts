@@ -2,7 +2,7 @@ import 'dotenv/config'
 import mongoose from 'mongoose'
 
 export class DatabaseModule {
-	static async init() {
+	static async register() {
 		const uri = process.env.MONGO_URI
 		const dbName = process.env.MONGO_DB
 

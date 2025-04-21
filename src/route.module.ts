@@ -1,28 +1,20 @@
 import express, { Application } from 'express'
+import { UserController } from './modules/user/user.controller'
+// import UserController
 
-type init = {
+type RouteModuleOptions = {
 	prefix: string
 	app: Application
 }
 
 export class RouteModule {
-	static async init({ prefix, app }: init) {
+	static async forRootAsync({ prefix, app }: RouteModuleOptions) {
 		try {
 			const router = express.Router()
-			const routes = await Promise.all([
-				// import from here
-				import('./modules/user/user.route')
-			])
-
-			routes.forEach((route) => {
-				router.use(route.default.register())
-			})
-
+			router.use(new UserController().router)
 			app.use(prefix, router)
-
-			console.log('Router register successful')
 		} catch (error) {
-			console.log('Error from RouteModule:>>> ', error instanceof Error ? error.message : error)
+			console.error('[RouteModule]', error instanceof Error ? error.message : error)
 		}
 	}
 }

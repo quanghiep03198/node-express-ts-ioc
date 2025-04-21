@@ -12,7 +12,7 @@ const bootstrap = async () => {
 	app.use(express.json())
 	app.use(express.urlencoded())
 
-	await Promise.all([DatabaseModule.init(), RouteModule.init({ prefix: '/v1/api', app })])
+	await Promise.all([DatabaseModule.register(), RouteModule.forRootAsync({ prefix: '/v1/api', app })])
 
 	await app.listen(PORT, () => {
 		console.log(`Server is running on http://${HOST}:${PORT}`)
